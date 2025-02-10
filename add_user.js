@@ -5,7 +5,7 @@ document.getElementById("userForm").addEventListener("submit", function (event) 
     const idNumber = document.getElementById("idNumber").value;
 
     // API endpoint to add user
-    const apiEndpoint = "https://rotemalt.github.io/my-status-site/website/";
+    const apiEndpoint = "https://rotemalt.github.io/my-status-site";
 
     fetch(apiEndpoint, {
         method: "POST",
