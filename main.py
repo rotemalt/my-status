@@ -46,7 +46,7 @@ def add_user(user: User):
     users[user_id] = {
         "last_name": user.last_name,
         "identification_number": user_id,
-        "active": False,  # Default to inactive until activation
+        "active": True,  # Default to inactive until activation
         "unique_code": unique_code
     }
     
