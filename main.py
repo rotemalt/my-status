@@ -10,8 +10,8 @@ users = {}
 
 # User model
 class User(BaseModel):
-    last_name: str
-    identification_number: str
+    last_name: str = Field(min_length=2, max_length=50)
+    identification_number: str = Field(regex="^[0-9]{6,10}$")
 
 # Deactivation request model
 class DeactivateRequest(BaseModel):
@@ -27,6 +27,7 @@ def add_user(user: User):
     # Logic to add user to a database or in-memory store
     users[user.id_number] = {"last_name": user.last_name, "identification_number": user.id_number}
     return {"success": True}
+    
 
 @app.post("/activate")
 def activate(user: User):
