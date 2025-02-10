@@ -11,7 +11,7 @@ users = {}
 # User model
 class User(BaseModel):
     last_name: str = Field(min_length=2, max_length=50)
-    identification_number: str = Field(regex="^[0-9]{6,10}$")  # Ensure 6-10 digit ID
+    identification_number: str = Field(pattern="^[0-9]{6,10}$") # Ensure 6-10 digit ID
 
 # Deactivation request model
 class DeactivateRequest(BaseModel):
