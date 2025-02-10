@@ -11,7 +11,7 @@ document.getElementById("userForm").addEventListener("submit", function (event) 
     };
 
     // Corrected API endpoint
-    const apiEndpoint = "https://my-status-p9ia.onrender.com"; // Change this if deployed
+    const apiEndpoint = "https://my-status-p9ia.onrender.com/add_user"; // Change this if deployed
 
     fetch(apiEndpoint, {
         method: "POST",
