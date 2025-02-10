@@ -4,6 +4,10 @@ import random
 import string
 from fastapi.middleware.cors import CORSMiddleware
 
+# Your existing app routes go here...
+
+app = FastAPI()
+
 # Add CORS middleware to the app
 app.add_middleware(
     CORSMiddleware,
@@ -13,9 +17,6 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-# Your existing app routes go here...
-
-app = FastAPI()
 
 # Temporary in-memory storage
 users = {}
