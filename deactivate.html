@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deactivate Account</title>
+</head>
+<body>
+    <h2>Deactivate Your Account</h2>
+    <input type="text" id="identification" placeholder="Enter Your ID">
+    <input type="text" id="uniqueCode" placeholder="Enter Your Unique Code">
+    <button onclick="deactivateAccount()">Deactivate</button>
+    <p id="deactivationResult"></p>
+
+    <script>
+        const API_URL = "http://127.0.0.1:8000";  // Change this if deployed
+
+        function deactivateAccount() {
+            let id = document.getElementById("identification").value;
+            let code = document.getElementById("uniqueCode").value;
+
+            fetch(`${API_URL}/deactivate_user`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ identification_number: id, unique_code: code })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === false) {
+                    document.getElementById("deactivationResult").innerText = "✅ Account deactivated successfully!";
+                } else {
+                    document.getElementById("deactivationResult").innerText = "❌ " + data.detail;
+                }
+            })
+            .catch(error => {
+                document.getElementById("deactivationResult").innerText = "❌ Error: Unable to deactivate account.";
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Account Status</title>
+</head>
+<body>
+    <h2>Check Account Status</h2>
+    <input type="text" id="identification" placeholder="Enter Your ID">
+    <button onclick="checkStatus()">Check Status</button>
+    <p id="statusResult"></p>
+
+    <script>
+        const API_URL = "https://your-api.onrender.com";  // Change this if needed
+
+        function checkStatus() {
+            let id = document.getElementById("identification").value;
+
+            fetch(`${API_URL}/status/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("statusResult").innerText = `Status: ${data.status}`;
+            })
+            .catch(error => {
+                document.getElementById("statusResult").innerText = "❌ User not found or API error.";
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fund Transfer</title>
+</head>
+<body>
+    <h2>Check User Status</h2>
+    <input type="text" id="identification" placeholder="Enter ID">
+    <button onclick="checkStatus()">Check Status</button>
+    <p id="statusResult"></p>
+
+    <h2>Activate/Deactivate User</h2>
+    <input type="text" id="lastName" placeholder="Enter Last Name">
+    <input type="text" id="identification2" placeholder="Enter ID">
+    <button onclick="activateUser()">Activate</button>
+    <button onclick="deactivateUser()">Deactivate</button>
+    <p id="actionResult"></p>
+
+    <h2>Transfer Funds</h2>
+    <input type="number" id="amount" placeholder="Enter amount">
+    <button id="transferBtn" onclick="transferFunds()" disabled>Transfer</button>
+    <p id="transferResult"></p>
+
+    <script>
+        const API_URL = "http://127.0.0.1:8000"; // Change when deploying
+
+        function checkStatus() {
+            let id = document.getElementById("identification").value;
+            fetch(`${API_URL}/status/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "Active") {
+                        document.getElementById("statusResult").innerText = "✅ User is Active. Transfer Allowed.";
+                        document.getElementById("transferBtn").disabled = false;
+                    } else {
+                        document.getElementById("statusResult").innerText = "❌ User is Inactive. Transfer Blocked.";
+                        document.getElementById("transferBtn").disabled = true;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("statusResult").innerText = "Error checking status.";
+                    document.getElementById("transferBtn").disabled = true;
+                });
+        }
+
+        function activateUser() {
+            let lastName = document.getElementById("lastName").value;
+            let id = document.getElementById("identification2").value;
+
+            fetch(`${API_URL}/activate`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ last_name: lastName, identification_number: id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("actionResult").innerText = data.message;
+            })
+            .catch(error => {
+                document.getElementById("actionResult").innerText = "Error activating user.";
+            });
+        }
+
+        function deactivateUser() {
+            let lastName = document.getElementById("lastName").value;
+            let id = document.getElementById("identification2").value;
+
+            fetch(`${API_URL}/deactivate`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ last_name: lastName, identification_number: id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("actionResult").innerText = data.message;
+            })
+            .catch(error => {
+                document.getElementById("actionResult").innerText = "Error deactivating user.";
+            });
+        }
+
+        function transferFunds() {
+            let amount = document.getElementById("amount").value;
+            if (!amount || amount <= 0) {
+                document.getElementById("transferResult").innerText = "❌ Invalid amount.";
+                return;
+            }
+
+            document.getElementById("transferResult").innerText = `✅ Transfer of $${amount} successful!`;
+        }
+    </script>
+</body>
+</html>
